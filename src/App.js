@@ -8,18 +8,31 @@ function App() {
   const [home, setHome] = useState(0);
   const [away, setAway] = useState(0);
 
-  // Stretch Goal
-  const [timer, setTimer] = useState(60);
+  // Stretch Goal timer
+  const [minutes, setMinutes] = useState(1);
+  const [seconds, setSeconds] = useState(60);
 
+  //minutes
   useEffect(() => {
     const clock = setTimeout(() => {
-      if (timer > 0) {
-        setTimer(timer - 1);
+      if (minutes > 0) {
+        setMinutes(minutes - 1);
+      } else {
+        clearTimeout(clock);
+      }
+    }, 60 * 1000);
+  }, [minutes]);
+
+  //seconds
+  useEffect(() => {
+    const clock = setTimeout(() => {
+      if (seconds > 0) {
+        setSeconds(seconds - 1);
       } else {
         clearTimeout(clock);
       }
     }, 1000);
-  }, [timer]);
+  }, [seconds]);
 
   return (
     <div className="container">
@@ -32,7 +45,9 @@ function App() {
 
             <div className="home__score">{home}</div>
           </div>
-          <div className="timer">00:{timer}</div>
+          <div className="timer">
+            {minutes}:{seconds}
+          </div>
           <div className="away">
             <h2 className="away__name">Tigers</h2>
             <div className="away__score">{away}</div>
@@ -61,7 +76,6 @@ function App() {
             className="awayButtons__touchdown"
             onClick={() => setAway(away + 7)}
           >
-            {" "}
             Away Touchdown
           </button>
           <button
